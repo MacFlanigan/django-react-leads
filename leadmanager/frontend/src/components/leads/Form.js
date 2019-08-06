@@ -24,8 +24,6 @@ class Form extends Component {
     this.setState({
       name: '', email: '', message: ''
     });
-
-    console.log("submit");
   };
 
 
