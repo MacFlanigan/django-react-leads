@@ -21,7 +21,6 @@ class Leads extends Component {
         <table className="table table-striped">
           <thead>
           <tr>
-            <th>ID</th>
             <th>Name</th>
             <th>Email</th>
             <th>Message</th>
@@ -31,7 +30,6 @@ class Leads extends Component {
           <tbody>
           {this.props.leads.map(lead => (
             <tr key={lead.id}>
-              <td>{lead.id}</td>
               <td>{lead.name}</td>
               <td>{lead.email}</td>
               <td>{lead.message}</td>
