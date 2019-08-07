@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link, Redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {logout} from "../../actions/auth";
@@ -7,15 +7,34 @@ import {logout} from "../../actions/auth";
 class Header extends Component {
 
   static propTypes = {
-    isAuthenticated: PropTypes.bool
+    auth: PropTypes.object.isRequired
   };
 
   handleLogout = () => {
     this.props.logout();
-    return <Redirect to="/login"/>
   };
 
   render() {
+    const guestLinks = (
+      <ul className="navbar-nav ml-auto mt-2 mt-2">
+        <li className="nav-item">
+          <Link to="/register" className="nav-link">Register</Link>
+        </li>
+        <li className="nav-item">
+          <Link to="/login" className="nav-link">Login</Link>
+        </li>
+      </ul>
+    );
+
+    const userLinks = (
+      <ul className="navbar-nav ml-auto mt-2 mt-2">
+        <span className="navbar-text mr-3"><strong> Welcome {this.props.auth.user ? this.props.auth.user.username: null}</strong></span>
+        <li className="nav-item">
+          <a href="#" className="nav-link" onClick={this.handleLogout}>Logout</a>
+        </li>
+      </ul>
+    );
+
     return (
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
         <div className="container">
@@ -25,18 +44,7 @@ class Header extends Component {
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
             <a className="navbar-brand" href="#">Lead Manager</a>
-            <ul className="navbar-nav ml-auto mt-2 mt-2">
-              <li className="nav-item">
-                <Link to="/register" className="nav-link">Register</Link>
-              </li>
-              <li className="nav-item">
-                {this.props.isAuthenticated ? (
-                  <button className="btn nav-link" onClick={this.handleLogout}>Logout</button>
-                ) : (
-                  <Link to="/login" className="nav-link">Login</Link>
-                )}
-              </li>
-            </ul>
+            {this.props.auth.isAuthenticated ? userLinks : guestLinks}
           </div>
         </div>
       </nav>
@@ -45,7 +53,7 @@ class Header extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.authReducer.isAuthenticated
+  auth: state.authReducer
 });
 
 export default connect(mapStateToProps, {logout})(Header);

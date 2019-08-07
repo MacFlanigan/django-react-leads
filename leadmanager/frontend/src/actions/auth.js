@@ -2,25 +2,29 @@ import axios from 'axios';
 import {returnErrors} from "./messages";
 import {USER_LOADING, USER_LOADED, AUTH_ERROR, LOGIN_SUCESS, LOGIN_FAILED, LOGOUT} from "./types";
 
-
-// Headers
-const config = {
-  headers: {
-    'Content-Type': 'application/json'
+export const tokenConfig = getState => {
+  // Headers
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+  // Get token
+  const token = getState().authReducer.token;
+  if (token) {
+    config.headers['Authorization'] = `Token ${token}`;
   }
+
+  return config;
 };
+
 
 // == Check token and load user ==
 export const loadUser = () => (dispatch, getState) => {
   // User loading
   dispatch({type: USER_LOADING});
 
-  // Get token
-  const token = getState().authReducer.token;
-
-  if (token) {
-    config.headers['Authorization'] = `Token ${token}`;
-  }
+  const config = tokenConfig(getState);
 
   axios.get('/api/auth/me', config)
     .then(res => {
@@ -39,7 +43,9 @@ export const login = (username, password) => dispatch => {
 
   const body = JSON.stringify({username, password});
 
-  if (config.headers.Authorization) delete config.headers.Authorization;
+  const config = {
+    headers: {'Content-Type': 'application/json'}
+  };
 
   axios.post('/api/auth/login', body, config)
     .then(res => {
@@ -55,12 +61,8 @@ export const login = (username, password) => dispatch => {
 
 // == Logout user ==
 export const logout = () => (dispatch, getState) => {
-  // Get token
-  const token = getState().authReducer.token;
-  if (token) {
-    config.headers['Authorization'] = `Token ${token}`;
-  }
 
+  const config = tokenConfig(getState);
   axios.post('/api/auth/logout', null, config)
     .then(res => {
       dispatch({

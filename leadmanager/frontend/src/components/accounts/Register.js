@@ -25,7 +25,8 @@ class Register extends Component {
           <form onSubmit={this.onSubmit}>
             <div className="form-group">
               <label>Username</label>
-              <input type="text" className="form-control" name="username" onChange={this.onChange} value={username}/>
+              <input type="text" className="form-control" name="username" onChange={this.onChange} value={username}
+                     required/>
             </div>
             <div className="form-group">
               <label>Email</label>
@@ -34,12 +35,12 @@ class Register extends Component {
             <div className="form-group">
               <label>Password</label>
               <input type="password" className="form-control" name="password" onChange={this.onChange}
-                     value={password}/>
+                     value={password} required/>
             </div>
             <div className="form-group">
               <label>Confirm</label>
               <input type="password" className="form-control" name="password2" onChange={this.onChange}
-                     value={password2}/>
+                     value={password2} required/>
             </div>
             <div className="form-group">
               <button type="submit" className="btn btn-primary">Register</button>
