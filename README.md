@@ -3,7 +3,7 @@ Project using django rest framework, and react.
 - User registration and login using knox (token auth)
 - secured CRUD API with a simple table (leads)
 
-###Launch using docker:
+### Launch using docker:
 ```shell script
 docker build -t leads . && docker run -p 80:8000 --name leads -d leads
 ``` 
