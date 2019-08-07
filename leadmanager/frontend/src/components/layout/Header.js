@@ -1,7 +1,20 @@
 import React, {Component} from 'react';
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {logout} from "../../actions/auth";
 
 class Header extends Component {
+
+  static propTypes = {
+    isAuthenticated: PropTypes.bool
+  };
+
+  handleLogout = () => {
+    this.props.logout();
+    return <Redirect to="/login"/>
+  };
+
   render() {
     return (
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
@@ -17,7 +30,11 @@ class Header extends Component {
                 <Link to="/register" className="nav-link">Register</Link>
               </li>
               <li className="nav-item">
-                <Link to="/login" className="nav-link">Login</Link>
+                {this.props.isAuthenticated ? (
+                  <button className="btn nav-link" onClick={this.handleLogout}>Logout</button>
+                ) : (
+                  <Link to="/login" className="nav-link">Login</Link>
+                )}
               </li>
             </ul>
           </div>
@@ -27,4 +44,8 @@ class Header extends Component {
   }
 }
 
-export default Header;
+const mapStateToProps = state => ({
+  isAuthenticated: state.authReducer.isAuthenticated
+});
+
+export default connect(mapStateToProps, {logout})(Header);

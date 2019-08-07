@@ -14,9 +14,21 @@ class Alerts extends Component {
     const {errors, alert, message} = this.props;
 
     if (prevProps.errors !== errors) {
-      if (errors.msg.name) alert.error(`Name: ${errors.msg.name.join()}`);
-      if (errors.msg.email) alert.error(`Email: ${errors.msg.email.join()}`);
-      if (errors.msg.message) alert.error(`Message: ${errors.msg.message.join()}`);
+
+      Object.keys(errors.msg).forEach(key => {
+        switch (key) {
+          case 'username':
+          case 'password':
+          case 'password2':
+          case 'name':
+          case 'email':
+          case 'message':
+            alert.error(`${key}: ${errors.msg[key]}`);
+            break;
+          case 'non_field_errors':
+            alert.error(errors.msg[key]);
+        }
+      });
     }
 
     if (prevProps.message !== message) {
