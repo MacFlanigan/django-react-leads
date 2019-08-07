@@ -26,5 +26,6 @@ from the root directory:
 3. npm run build
 4. python ./leadmanager/manage.py migrate (at install, not required after)
 5. python ./leadmanager/manage.py runserver
+6. navigate to http://localhost:8000
 
 
