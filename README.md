@@ -25,6 +25,6 @@ from the root directory:
 2. npm install
 3. npm run build
 4. python ./leadmanager/manage.py migrate (at install, not required after)
-5. python ./leadmanager/manage.py run server
+5. python ./leadmanager/manage.py runserver
 
 
