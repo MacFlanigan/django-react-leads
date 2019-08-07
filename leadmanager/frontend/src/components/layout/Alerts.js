@@ -32,7 +32,8 @@ class Alerts extends Component {
     }
 
     if (prevProps.message !== message) {
-      alert.success(message.msg);
+      if (message.msg) alert.success(message.msg);
+      if (message.error) alert.error(message.error);
     }
 
   }

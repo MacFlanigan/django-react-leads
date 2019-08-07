@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {returnErrors} from "./messages";
+import {createMessage, returnErrors} from "./messages";
 import {
   USER_LOADING,
   USER_LOADED,
@@ -69,7 +69,7 @@ export const login = (username, password) => dispatch => {
 };
 
 // == Register user ==
-export const register = (username, email, password) => dispatch => {
+export const register = ({username, email, password}) => dispatch => {
 
   const body = JSON.stringify({username, email, password});
 
@@ -79,10 +79,13 @@ export const register = (username, email, password) => dispatch => {
 
   axios.post('/api/auth/register', body, config)
     .then(res => {
+      dispatch(createMessage({
+        msg: 'User created'
+      }));
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data
-      })
+      });
     }).catch(err => {
     dispatch(returnErrors(err.response.data, err.response.status));
     dispatch({type: REGISTER_FAILED});
