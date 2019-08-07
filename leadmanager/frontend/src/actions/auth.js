@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {returnErrors} from "./messages";
-import {USER_LOADING, USER_LOADED, AUTH_ERROR, LOGIN_SUCESS, LOGIN_FAILED, LOGOUT} from "./types";
+import {USER_LOADING, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAILED, LOGOUT} from "./types";
 
 export const tokenConfig = getState => {
   // Headers
@@ -50,7 +50,7 @@ export const login = (username, password) => dispatch => {
   axios.post('/api/auth/login', body, config)
     .then(res => {
       dispatch({
-        type: LOGIN_SUCESS,
+        type: LOGIN_SUCCESS,
         payload: res.data
       })
     }).catch(err => {
