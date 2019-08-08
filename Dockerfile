@@ -10,5 +10,5 @@ FROM python
 RUN useradd -ms /bin/bash user
 COPY --from=builder /app/ /home/user/app/
 WORKDIR /home/user/app/leadmanager
-RUN pip install -r requirements.txt && python manage.py migrate
+RUN pip install -r requirements.txt
 USER user
